@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//using UnityEngine.AI;
 
 public class AnimalSpawner : MonoBehaviour
 {
@@ -13,11 +14,15 @@ public class AnimalSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.S.AnimalsLists.Add(_animals);
+
         for (int i = 0; i < AnimalsCount; i++)
         {
             Vector2 randomPosition = Random.insideUnitCircle * SpawnRadius;
             GameObject animal = Instantiate(AnimalPrefab, transform);
-            animal.transform.localPosition = new Vector3(randomPosition.x, animal.transform.position.y, randomPosition.y);
+            animal.transform.localPosition = new Vector3(randomPosition.x, animal.transform.localPosition.y, randomPosition.y);
+            animal.transform.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+            //animal.GetComponent<NavMeshAgent>().enabled = true;
             _animals.Add(animal);
         }
     }
