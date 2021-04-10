@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class MutationPointsUI : MonoBehaviour
 {
-    public float MutationPoints;
+    [HideInInspector] public float MutationPoints;
 
     [SerializeField] private Slider _slider;
     [SerializeField] private TextMeshProUGUI _text;
+    [Header("Dynamic")]
     [SerializeField] private float _mutationIncreaseSpeed = 1;
-    private readonly float _maxValue = 5;
+    [SerializeField] private readonly float _maxValue = 5;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class MutationPointsUI : MonoBehaviour
 
     public void Increase(float diff)
     {
-        MutationPoints += diff;
+        MutationPoints = Mathf.Clamp(MutationPoints + diff, 0, _maxValue);
         UpdateUI(MutationPoints);
     }
 }
