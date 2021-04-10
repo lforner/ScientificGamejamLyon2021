@@ -28,23 +28,29 @@ public class AnimalBehaviour : MonoBehaviour {
         { AnimalSpeciesType.Paper, new AnimalSpecies(AnimalSpeciesType.Paper, AnimalSpeciesType.Cisor, AnimalSpeciesType.Rock) },
         { AnimalSpeciesType.Cisor, new AnimalSpecies(AnimalSpeciesType.Cisor, AnimalSpeciesType.Rock, AnimalSpeciesType.Paper) }
     };
-
     public static float FoodStamina = 0.5f;
 
+    public AnimalSpeciesType SpeciesType;
+    [HideInInspector]
     public AnimalSpecies Species;
+
     public float Energy = 1.0f;
 
-    public AnimalGenome Genome;
-    public AnimalGenome ChildGenome;
+    public AnimalGenome Genome = new AnimalGenome();
+    public AnimalGenome ChildGenome = new AnimalGenome();
 
     public ColliderTriggerHelper BodyCollider;
     public ColliderTriggerHelper ViewCollider;
+
+    public AnimalBehaviour() {
+        Species = speciesMap[SpeciesType];
+    }
 
     public bool IsHungry => Energy <= FoodStamina;
 
     // Start is called before the first frame update
     void Start() {
-        Time.timeScale = 0.1f;
+        //Time.timeScale = 0.1f;
     }
 
     // Update is called once per frame
