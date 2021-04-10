@@ -45,4 +45,14 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(1);
     }
+
+    public static void LoseGame()
+    {
+        Debug.Log("LoseGame");
+    }
+
+    public static void WinGame()
+    {
+        Debug.Log("WinGame");
+    }
 }
