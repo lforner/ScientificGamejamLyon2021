@@ -5,13 +5,13 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class ColliderTriggerHelper : MonoBehaviour {
     [HideInInspector]
-    public GameObject CollidingWith;
+    public HashSet<AnimalBehaviour> CollidingWith = new HashSet<AnimalBehaviour>();
 
     private void OnTriggerEnter(Collider other) {
-        CollidingWith = other.gameObject;
+        CollidingWith.Add(other.gameObject.GetComponentInParent<AnimalBehaviour>());
     }
 
     private void OnTriggerExit(Collider other) {
-        CollidingWith = null;
+        CollidingWith.Remove(other.gameObject.GetComponentInParent<AnimalBehaviour>());
     }
 }
