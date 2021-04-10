@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 182020005}
-  AnimalsCount: 20
+  AnimalsCount: 10
   SpawnRadius: 7
 --- !u!4 &563485916
 Transform:
@@ -312,6 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e12e1d365aa51c42adf1f2fb2c355dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MutationPointsUI: {fileID: 0}
 --- !u!4 &597498187
 Transform:
   m_ObjectHideFlags: 0
@@ -343,11 +344,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4216003663914942597, guid: 65d0c47c277c1d64aab74fdb80317a72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.61
+      value: -4.04
       objectReference: {fileID: 0}
     - target: {fileID: 4216003663914942597, guid: 65d0c47c277c1d64aab74fdb80317a72, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.26
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4216003663914942597, guid: 65d0c47c277c1d64aab74fdb80317a72, type: 3}
       propertyPath: m_LocalRotation.w
@@ -423,7 +424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 431166005}
-  AnimalsCount: 20
+  AnimalsCount: 10
   SpawnRadius: 7
 --- !u!4 &1067942078
 Transform:
@@ -554,7 +555,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1336242899136641508, guid: 83aa063b6e01b974cae413950407841a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.68
+      value: 2.33
       objectReference: {fileID: 0}
     - target: {fileID: 1336242899900291414, guid: 83aa063b6e01b974cae413950407841a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -592,7 +593,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 824793615}
-  AnimalsCount: 20
+  AnimalsCount: 10
   SpawnRadius: 7
 --- !u!4 &1328561650
 Transform:

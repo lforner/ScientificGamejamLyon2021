@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public struct AnimalSpecies {
+public class AnimalSpecies {
     public AnimalSpeciesType Type;
     public AnimalSpeciesType PredatorType;
     public AnimalSpeciesType PreyType;
@@ -28,9 +29,12 @@ public class AnimalBehaviour : MonoBehaviour {
         { AnimalSpeciesType.Paper, new AnimalSpecies(AnimalSpeciesType.Paper, AnimalSpeciesType.Cisor, AnimalSpeciesType.Rock) },
         { AnimalSpeciesType.Cisor, new AnimalSpecies(AnimalSpeciesType.Cisor, AnimalSpeciesType.Rock, AnimalSpeciesType.Paper) }
     };
-    public static float FoodEnergy = 0.5f;
-    public static float WalkEnergyConsumption = 0.001f;
-    public static float LoveEnergyConsumption = 0.6f;
+
+    public float FoodEnergy = 0.5f;
+    public float WalkEnergyConsumption = 0.001f;
+    public float LoveEnergyConsumption = 0.6f;
+    public int HalfFieldOfView = 80;
+    public int RandomWalkHalfAngle = 30;
 
     public AnimalSpeciesType SpeciesType;
     private AnimalSpecies _species;
@@ -48,7 +52,7 @@ public class AnimalBehaviour : MonoBehaviour {
     }
 
     public bool IsHungry => Energy <= FoodEnergy;
-    public bool CanMakeLove => Energy >= LoveEnergyConsumption;
+    public bool CanMakeLove => Energy > LoveEnergyConsumption;
 
     // Start is called before the first frame update
     void Start() {
@@ -72,39 +76,43 @@ public class AnimalBehaviour : MonoBehaviour {
 
     private Vector3? GetNextMove() {
         // Has object in sight
-        if (ViewCollider.CollidingWith != null) {
-            var collidingWith = ViewCollider.CollidingWith.gameObject.GetComponentInParent<AnimalBehaviour>();
-
+        if (ViewCollider.CollidingWith.Count > 0) {
+            var firstPredator = ViewCollider.CollidingWith.FirstOrDefault((animal) => animal._species.IsPredatorOf(_species));
             // Check predator
-            if (collidingWith._species.IsPredatorOf(_species)) {
+            if (firstPredator != null) {
                 Debug.Log("Predator");
                 // Check FOV
-                var predatorDirection = ViewCollider.CollidingWith.transform.position - transform.position;
+                var predatorDirection = firstPredator.transform.position - transform.position;
                 var angle = Vector3.Angle(transform.forward, predatorDirection);
-                if (angle <= 80) {
+                if (angle <= HalfFieldOfView) {
                     // Move away
                     return -predatorDirection;
                 }
             }
 
             // Check food
-            if (IsHungry && _species.IsPredatorOf(collidingWith._species)) {
+            var firstPrey = ViewCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species));
+            if (IsHungry && firstPrey != null) {
                 Debug.Log("Eat");
             }
 
             // Check mate
-            if (CanMakeLove && SpeciesType == collidingWith.SpeciesType) {
-                Debug.Log("Love");
-                var coupleFertility = Genome.Fertility + collidingWith.Genome.Fertility;
-                if (coupleFertility >= Random.value) {
-                    MakeLove();
-                    return null;
+            var firstMate = ViewCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType);
+            if (CanMakeLove && firstMate != null) {
+                if (BodyCollider.CollidingWith == null) {
+                    return firstMate.transform.position - transform.position;
+                } else { 
+                    var coupleFertility = Genome.Fertility + firstMate.Genome.Fertility;
+                    if (coupleFertility >= Random.value) {
+                        MakeLove(firstMate);
+                        return null;
+                    }
                 }
             }
         }
 
         // Nothing in sight  
-        var rotation = Quaternion.Euler(0, Random.value * 30 - 15, 0);
+        var rotation = Quaternion.Euler(0, Random.value * RandomWalkHalfAngle - RandomWalkHalfAngle / 2, 0);
         return rotation * transform.forward;
     }
 
@@ -120,8 +128,17 @@ public class AnimalBehaviour : MonoBehaviour {
         Energy -= WalkEnergyConsumption * Genome.EnergyEfficiency;
     }
 
-    private void MakeLove() {
-        var childGenome = new AnimalGenome();
+    private void MakeLove(AnimalBehaviour parent2) {
+        var childGenome = ChildGenome.ChildGenome(parent2.ChildGenome);
+        var child = Instantiate(gameObject, (transform.position + parent2.transform.position) / 2, Quaternion.Lerp(transform.rotation, parent2.transform.rotation, 0.5f), transform.parent);
+        var animal = child.GetComponent<AnimalBehaviour>();
+        animal.Genome = childGenome;
+        animal.Energy = LoveEnergyConsumption;
+        AfterLoveTask(this);
+        AfterLoveTask(parent2);
+    }
 
+    private void AfterLoveTask(AnimalBehaviour lover) {
+        lover.Energy -= LoveEnergyConsumption;
     }
 }
