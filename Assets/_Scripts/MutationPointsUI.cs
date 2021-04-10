@@ -36,7 +36,7 @@ public class MutationPointsUI : MonoBehaviour
 
     public void Increase(float diff)
     {
-        MutationPoints += diff;
+        MutationPoints = Mathf.Clamp(MutationPoints + diff, 0, _maxValue);
         UpdateUI(MutationPoints);
     }
 }
