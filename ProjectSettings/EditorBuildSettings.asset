@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Leo.unity
     guid: eb5e2c5f48edab440883d84bdd56e887
+  - enabled: 0
+    path: Assets/_Scenes/Nico.unity
+    guid: 57f33e1b686871b49ab2679653cd1adf
   m_configObjects: {}
