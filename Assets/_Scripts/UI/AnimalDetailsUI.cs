@@ -22,6 +22,8 @@ public class AnimalDetailsUI : PanelBase
     {
         if (MutationPointsUI.S.MutationPoints <= 1) return;
 
+        MutationPointsUI.S.Increase(-1);
+
         switch (gene)
         {
             case -1:
@@ -46,5 +48,6 @@ public class AnimalDetailsUI : PanelBase
     public void HideAnimalDetails()
     {
         Hide();
+        CamerasManager.S.UnfollowTarget();
     }
 }

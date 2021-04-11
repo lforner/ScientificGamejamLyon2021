@@ -12,6 +12,7 @@ public class CamerasManager : MonoBehaviour
     public CinemachineVirtualCamera SelectionCam;
 
     [HideInInspector] public bool IsFollowing;
+    private Transform _target;
 
     private void Awake()
     {
@@ -26,6 +27,7 @@ public class CamerasManager : MonoBehaviour
 
     public void FollowTarget(Transform target)
     {
+        _target = target;
         SelectionCam.Follow = SelectionCam.LookAt = target;
         SelectionCam.Priority = 10;
         Invoke(nameof(SetIsFollow), .1f);
@@ -38,6 +40,7 @@ public class CamerasManager : MonoBehaviour
 
     public void UnfollowTarget()
     {
+        Debug.Log("UnfollowTarget");
         SelectionCam.Priority = 0;
         IsFollowing = false;
     }

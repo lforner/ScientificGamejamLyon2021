@@ -2781,7 +2781,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 575425913}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &575425913
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4760,7 +4772,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1023417544}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1023417544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6367,7 +6391,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1275761781}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1275761781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7444,7 +7480,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1470087530}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1470087530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7565,7 +7613,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1479824760}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1479824760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8048,7 +8108,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1561119637}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: -2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1561119637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8169,7 +8241,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1570797725}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1570797725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10629,7 +10713,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2009116910}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2064723894}
+        m_TargetAssemblyTypeName: AnimalDetailsUI, Assembly-CSharp
+        m_MethodName: ModifyGenome
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2009116910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11859,11 +11955,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 801559944, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7009772
+      value: 0.70097727
       objectReference: {fileID: 0}
     - target: {fileID: 801559944, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.086294234
+      value: 0.08629424
       objectReference: {fileID: 0}
     - target: {fileID: 801559944, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_LocalRotation.y
@@ -11871,15 +11967,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 801559944, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.08649887
+      value: 0.08649886
       objectReference: {fileID: 0}
     - target: {fileID: 968006795, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 18.1735
+      value: 21.99926
       objectReference: {fileID: 0}
     - target: {fileID: 968006795, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -60.23513
+      value: -87.99493
       objectReference: {fileID: 0}
     - target: {fileID: 968845742, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_Follow
@@ -11907,11 +12003,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1133451548, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 18.1735
+      value: 21.99926
       objectReference: {fileID: 0}
     - target: {fileID: 1133451548, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -60.23513
+      value: -87.99493
       objectReference: {fileID: 0}
     - target: {fileID: 1208606891, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11939,11 +12035,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1716414087, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_FollowOffset.y
-      value: 18.1735
+      value: 21.99926
       objectReference: {fileID: 0}
     - target: {fileID: 1716414087, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_FollowOffset.z
-      value: -60.23513
+      value: -87.99493
       objectReference: {fileID: 0}
     - target: {fileID: 4870236352932286830, guid: 63dc3231dceac3d468a5bab3840039d1, type: 3}
       propertyPath: m_RootOrder
