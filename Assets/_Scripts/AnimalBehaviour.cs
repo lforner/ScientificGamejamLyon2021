@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AnimalSpecies {
     public AnimalSpeciesType Type;
@@ -21,6 +22,16 @@ public enum AnimalSpeciesType {
     Rock,
     Paper,
     Cisor,
+}
+
+public enum AnimalState {
+    None,
+    Walk,
+    WalkPredator,
+    WalkPrey,
+    WalkMate,
+    EatPrey,
+    MakingLove,
 }
 
 public class AnimalBehaviour : MonoBehaviour {
@@ -47,16 +58,17 @@ public class AnimalBehaviour : MonoBehaviour {
     public ColliderTriggerHelper BodyCollider;
     public ColliderTriggerHelper ViewCollider;
 
-    public AnimalBehaviour() {
-        _species = speciesMap[SpeciesType];
-    }
+    [Header("Readonly")]
+    public int InViewCount = 0;
+    public int CollidingWithCount = 0;
+    public AnimalState State = AnimalState.None;
 
     public bool IsHungry => Energy <= FoodEnergy;
     public bool CanMakeLove => Energy > LoveEnergyConsumption;
 
     // Start is called before the first frame update
     void Start() {
-        //Time.timeScale = 0.1f;
+        _species = speciesMap[SpeciesType];
     }
 
     // Update is called once per frame
@@ -70,48 +82,73 @@ public class AnimalBehaviour : MonoBehaviour {
 
         // Death
         if (Energy < 0) {
-            Destroy(gameObject);
+            Die();
         }
     }
 
     private Vector3? GetNextMove() {
         // Has object in sight
-        if (ViewCollider.CollidingWith.Count > 0) {
-            var firstPredator = ViewCollider.CollidingWith.FirstOrDefault((animal) => animal._species.IsPredatorOf(_species));
+        InViewCount = ViewCollider.CollidingWith.Count;
+        CollidingWithCount = BodyCollider.CollidingWith.Count;
+        if (InViewCount > 0) {
             // Check predator
+            var firstPredator = ViewCollider.CollidingWith.FirstOrDefault((animal) => animal._species.IsPredatorOf(_species));
             if (firstPredator != null) {
-                Debug.Log("Predator");
                 // Check FOV
                 var predatorDirection = firstPredator.transform.position - transform.position;
                 var angle = Vector3.Angle(transform.forward, predatorDirection);
-                if (angle <= HalfFieldOfView) {
+                if (angle <= HalfFieldOfView) {     // TODO should do this for all CollidingWith
                     // Move away
+                    State = AnimalState.WalkPredator;
                     return -predatorDirection;
                 }
             }
 
-            // Check food
+            // Check prey
             var firstPrey = ViewCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species));
             if (IsHungry && firstPrey != null) {
-                Debug.Log("Eat");
+                var firstTouchingPrey = BodyCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species));
+
+                // Just Walk toward prey
+                if (firstTouchingPrey == null) {
+                    State = AnimalState.WalkPrey;
+                    return firstPrey.transform.position - transform.position;
+                } 
+                
+                // Eat prey
+                else {
+                    State = AnimalState.EatPrey;
+                    EatPrey(firstTouchingPrey);
+                    return null;
+                }
+
             }
 
             // Check mate
             var firstMate = ViewCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType);
             if (CanMakeLove && firstMate != null) {
-                if (BodyCollider.CollidingWith == null) {
+                var firstTouchingMate = BodyCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType);
+
+                // Just Walk toward mate
+                if (firstTouchingMate == null) {
+                    State = AnimalState.WalkMate;
                     return firstMate.transform.position - transform.position;
-                } else { 
+                } 
+                
+                // Make love
+                else {
                     var coupleFertility = Genome.Fertility + firstMate.Genome.Fertility;
                     if (coupleFertility >= Random.value) {
-                        MakeLove(firstMate);
+                        State = AnimalState.MakingLove;
+                        MakeLove(firstMate);        // TODO only one of them should make love
                         return null;
                     }
                 }
             }
         }
 
-        // Nothing in sight  
+        // Nothing in sight
+        State = AnimalState.Walk;
         var rotation = Quaternion.Euler(0, Random.value * RandomWalkHalfAngle - RandomWalkHalfAngle / 2, 0);
         return rotation * transform.forward;
     }
@@ -128,6 +165,11 @@ public class AnimalBehaviour : MonoBehaviour {
         Energy -= WalkEnergyConsumption * Genome.EnergyEfficiency;
     }
 
+    private void EatPrey(AnimalBehaviour prey) {
+        prey.Die();
+        Energy += FoodEnergy;
+    }
+
     private void MakeLove(AnimalBehaviour parent2) {
         var childGenome = ChildGenome.ChildGenome(parent2.ChildGenome);
         var child = Instantiate(gameObject, (transform.position + parent2.transform.position) / 2, Quaternion.Lerp(transform.rotation, parent2.transform.rotation, 0.5f), transform.parent);
@@ -140,5 +182,11 @@ public class AnimalBehaviour : MonoBehaviour {
 
     private void AfterLoveTask(AnimalBehaviour lover) {
         lover.Energy -= LoveEnergyConsumption;
+    }
+
+    private void Die() {
+        GetComponent<NavMeshAgent>().enabled = false;
+        transform.position = new Vector3(0, 1000, 0);
+        Destroy(gameObject, 1);
     }
 }
