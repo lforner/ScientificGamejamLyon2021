@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class VictoryUI : MonoBehaviour
+public class VictoryUI : PanelBase
 {
-    public float FadeDuration = 1;
-
-    // Start is called before the first frame update
     void Start()
     {
         GameManager.S.VictoryUI = this;
@@ -15,6 +12,6 @@ public class VictoryUI : MonoBehaviour
 
     public void WinGame()
     {
-        GetComponent<CanvasGroup>().DOFade(1, FadeDuration);
+        Show();
     }
 }

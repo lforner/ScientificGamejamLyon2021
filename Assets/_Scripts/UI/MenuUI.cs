@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuUI : MonoBehaviour
+public class MenuUI : PanelBase
 {     
-    public void StartGame()
+    public void ShowSelectionPanel()
     {
-        GameManager.S.StartGame();
+        Hide();
     }
 }
