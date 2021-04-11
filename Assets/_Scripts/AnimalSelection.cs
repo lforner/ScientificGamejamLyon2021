@@ -7,6 +7,7 @@ public class AnimalSelection : MonoBehaviour
     public void OnSelect()
     {
         CamerasManager.S.FollowTarget(transform);
+
     }
 
     private void OnDestroy()
