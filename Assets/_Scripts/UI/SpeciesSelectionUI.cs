@@ -17,7 +17,6 @@ public class SpeciesSelectionUI : PanelBase
             default:
                 GameManager.S.SelectedSpecies = AnimalSpeciesType.Cisor;
                 break;
-
         }
 
         Hide();

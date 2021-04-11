@@ -184,7 +184,7 @@ public class AnimalBehaviour : MonoBehaviour {
                 }
             }
         } else {
-            Debug.Log($"Why ? {transform.position}");
+            //Debug.Log($"Why ? {transform.position}");
         }
 
         // Move
