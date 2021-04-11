@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 182020005}
-  AnimalsCount: 1
+  AnimalsCount: 5
   SpawnRadius: 7
 --- !u!4 &563485916
 Transform:
@@ -312,7 +312,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e12e1d365aa51c42adf1f2fb2c355dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  VictoryUI: {fileID: 0}
+  DefeatUI: {fileID: 0}
   TimeBetweenPerturbations: 10
+  NumberOfPerturbationsToWin: 10
+  EndlessMode: 0
 --- !u!4 &597498187
 Transform:
   m_ObjectHideFlags: 0
@@ -424,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 431166005}
-  AnimalsCount: 1
+  AnimalsCount: 5
   SpawnRadius: 7
 --- !u!4 &1067942078
 Transform:
@@ -462,7 +466,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1336242898095244339, guid: 356a67e8dda3208418409fd0951bf034, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -4.94
       objectReference: {fileID: 0}
     - target: {fileID: 1336242898095244339, guid: 356a67e8dda3208418409fd0951bf034, type: 3}
       propertyPath: m_LocalPosition.z
@@ -593,7 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimalPrefab: {fileID: 824793615}
-  AnimalsCount: 1
+  AnimalsCount: 5
   SpawnRadius: 7
 --- !u!4 &1328561650
 Transform:

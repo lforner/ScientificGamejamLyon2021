@@ -60,10 +60,13 @@ public class AnimalBehaviour : MonoBehaviour {
     public ColliderTriggerHelper ViewCollider;
 
     [Header("Readonly")]
+    public float DebugData = 0;
     public int InViewCount = 0;
     public int CollidingWithCount = 0;
     public AnimalState State = AnimalState.None;
     public bool IsDying = false;
+
+    private NavMeshAgent _navMeshAgent;
 
     public bool IsHungry => Energy <= FoodEnergy;
     public bool CanMakeLove => Energy > LoveEnergyConsumption;
@@ -71,6 +74,7 @@ public class AnimalBehaviour : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         _species = speciesMap[SpeciesType];
+        _navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -96,16 +100,16 @@ public class AnimalBehaviour : MonoBehaviour {
         CollidingWithCount = BodyCollider.CollidingWith.Count;
         if (InViewCount > 0) {
             // Check predator
-            var firstPredator = ViewCollider.CollidingWith.FirstOrDefault((animal) => animal._species.IsPredatorOf(_species));
-            if (firstPredator != null) {
-                // Check FOV
-                var predatorDirection = firstPredator.transform.position - transform.position;
-                if (predatorDirection == Vector3.zero) predatorDirection = Random.insideUnitSphere;
-                var angle = Vector3.Angle(transform.forward, predatorDirection);
-                if (angle <= HalfFieldOfView) {     // TODO should do this for all CollidingWith
-                    // Move away
-                    State = AnimalState.WalkPredator;
-                    return -predatorDirection;
+            var predators = ViewCollider.CollidingWith.Where((animal) => animal._species.IsPredatorOf(_species));
+            if (predators.Count() > 0) {
+                foreach (var predator in predators) {
+                    // Search for a predator in sight
+                    var runDirection = GetPredatorInViewRunDirection(predator);
+                    if (runDirection != null) {
+                        // Move away
+                        State = AnimalState.WalkPredator;
+                        return runDirection;
+                    }
                 }
             }
 
@@ -145,7 +149,7 @@ public class AnimalBehaviour : MonoBehaviour {
                     var coupleFertility = Genome.Fertility + firstMate.Genome.Fertility;
                     if (coupleFertility >= Random.value) {
                         State = AnimalState.MakingLove;
-                        MakeLove(firstMate);        // TODO only one of them should make love
+                        MakeLove(firstMate);
                         return null;
                     }
                 }
@@ -161,15 +165,43 @@ public class AnimalBehaviour : MonoBehaviour {
     private void MoveToward(Vector3? direction) {
         if (direction == null) return;
 
+        // Normalize direction
+        var moveDirection = direction.GetValueOrDefault();
+
+        // Check boundaries
+        if (_navMeshAgent.isOnNavMesh) {
+            NavMeshHit hit;
+            if (_navMeshAgent.FindClosestEdge(out hit)) {
+                DebugData = hit.distance;
+                // If it hits a border, bounce
+                if (hit.distance <= 0) {
+                    // Move toward center
+                    moveDirection = -transform.position;
+
+                    // Bounce like a mirror
+                    /*var angleToBorder = Vector3.Angle(transform.forward, hit.normal) - 90;
+                    moveDirection = Quaternion.Euler(0, angleToBorder * 2, 0) * transform.forward;*/
+                }
+            }
+        } else {
+            Debug.Log($"Why ? {transform.position}");
+        }
+
         // Move
-        var moveDirection = direction.GetValueOrDefault().normalized;
-        var move = moveDirection * Genome.Speed;
-        transform.position += move;
-        //transform.DOMove(transform.position + move, Time.fixedDeltaTime).SetEase(Ease.Linear);
+        var move = moveDirection.normalized * Genome.Speed;
+        transform.position += move;    //transform.DOMove(transform.position + move, Time.fixedDeltaTime).SetEase(Ease.Linear);
         transform.forward = moveDirection;
 
         // Energy
         Energy -= WalkEnergyConsumption * Genome.EnergyEfficiency;
+    }
+
+    private Vector3? GetPredatorInViewRunDirection(AnimalBehaviour predator) {
+        var predatorDirection = predator.transform.position - transform.position;
+        if (predatorDirection == Vector3.zero) predatorDirection = Random.insideUnitSphere;
+        var angle = Vector3.Angle(transform.forward, predatorDirection);
+        if (angle <= HalfFieldOfView) return -predatorDirection;
+        return null;
     }
 
     private void EatPrey(AnimalBehaviour prey) {
@@ -193,7 +225,7 @@ public class AnimalBehaviour : MonoBehaviour {
 
     private void Die() {
         IsDying = true;
-        GetComponent<NavMeshAgent>().enabled = false;
+        _navMeshAgent.enabled = false;
         transform.position = new Vector3(0, 1000, 0);
         Destroy(gameObject, 1);
     }
