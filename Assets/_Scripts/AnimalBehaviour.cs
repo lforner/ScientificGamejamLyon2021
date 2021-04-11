@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -159,6 +160,7 @@ public class AnimalBehaviour : MonoBehaviour {
         // Move
         var move = direction.GetValueOrDefault().normalized * Genome.Speed;
         transform.position += move;
+        //transform.DOMove(transform.position + move, Time.fixedDeltaTime).SetEase(Ease.Linear);
         transform.forward = move;
 
         // Energy

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MenuUI : MonoBehaviour
 {     
-    public static void StartGame()
+    public void StartGame()
     {
-        GameManager.StartGame();
+        GameManager.S.StartGame();
     }
 }
