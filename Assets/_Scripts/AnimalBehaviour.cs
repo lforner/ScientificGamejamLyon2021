@@ -97,6 +97,11 @@ public class AnimalBehaviour : MonoBehaviour {
         }
     }
 
+    private AudioSource _audioSource;
+    public AudioClip AudioDie;
+    public AudioClip AudioLove;
+    public AudioClip AudioEat;
+
     [Header("Readonly")]
     public float DebugData = 0;
     public int InViewCount = 0;
@@ -113,6 +118,7 @@ public class AnimalBehaviour : MonoBehaviour {
         _species = speciesMap[SpeciesType];
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _emoticon = GetComponentInChildren<SpriteRenderer>();
+        _audioSource = GetComponentInChildren<AudioSource>();
     }
 
     // Update is called once per frame
@@ -244,6 +250,7 @@ public class AnimalBehaviour : MonoBehaviour {
 
     private void EatPrey(AnimalBehaviour prey) {
         prey.Die();
+        PlayAudio(AudioEat);
         Energy += FoodEnergy;
     }
 
@@ -261,6 +268,8 @@ public class AnimalBehaviour : MonoBehaviour {
         var viewCollider = child.GetComponentsInChildren<ColliderTriggerHelper>().FirstOrDefault((c) => c.name == ColliderTriggerHelper.ViewName);
         viewCollider.transform.localScale = Vector3.one * childGenome.ViewDistance;
 
+        PlayAudio(AudioLove);
+
         // AfterLoveTask
         AfterLoveTask(this);
         AfterLoveTask(parent2);
@@ -274,6 +283,12 @@ public class AnimalBehaviour : MonoBehaviour {
         IsDying = true;
         _navMeshAgent.enabled = false;
         transform.position = new Vector3(0, 1000, 0);
+        PlayAudio(AudioDie);
         Destroy(gameObject, 1);
+    }
+
+    private void PlayAudio(AudioClip clip) {
+        _audioSource.clip = clip;
+        _audioSource.Play();
     }
 }

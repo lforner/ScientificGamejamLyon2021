@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -14,13 +15,15 @@ public class GameManager : MonoBehaviour
 
     [Header("Dynamic")]
     [Tooltip("Scaled time between two perturbations in seconds")]
-    public float TimeBetweenPerturbations = 10;
+    public float TimeBetweenPerturbations = 1;
     public int NumberOfPerturbationsToWin = 10;
     public bool EndlessMode;
 
     public int WaveNumber { get; private set; }
     public AnimalSpeciesType SelectedSpecies { get; internal set; }
     public bool HasGameStarted { get; private set; }
+
+    public GameObject AnimalContainer;
 
     void Awake()
     {
@@ -63,6 +66,11 @@ public class GameManager : MonoBehaviour
     private void Disrupt()
     {
         Debug.Log($"Disrupt wave#{WaveNumber}");
+
+        var animal = AnimalContainer.GetComponentsInChildren<AnimalBehaviour>().FirstOrDefault((a) => a.SpeciesType != SelectedSpecies);
+        if (animal != null) {
+            animal.ChildGenome.Speed.Increment(1);
+        }
     }
 
     public void StartGame()
