@@ -63,6 +63,7 @@ public class AnimalBehaviour : MonoBehaviour {
     public int InViewCount = 0;
     public int CollidingWithCount = 0;
     public AnimalState State = AnimalState.None;
+    public bool IsDying = false;
 
     public bool IsHungry => Energy <= FoodEnergy;
     public bool CanMakeLove => Energy > LoveEnergyConsumption;
@@ -78,6 +79,8 @@ public class AnimalBehaviour : MonoBehaviour {
     }
 
     private void FixedUpdate() {
+        if (IsDying) return;
+
         // Move
         MoveToward(GetNextMove());
 
@@ -97,6 +100,7 @@ public class AnimalBehaviour : MonoBehaviour {
             if (firstPredator != null) {
                 // Check FOV
                 var predatorDirection = firstPredator.transform.position - transform.position;
+                if (predatorDirection == Vector3.zero) predatorDirection = Random.insideUnitSphere;
                 var angle = Vector3.Angle(transform.forward, predatorDirection);
                 if (angle <= HalfFieldOfView) {     // TODO should do this for all CollidingWith
                     // Move away
@@ -158,10 +162,11 @@ public class AnimalBehaviour : MonoBehaviour {
         if (direction == null) return;
 
         // Move
-        var move = direction.GetValueOrDefault().normalized * Genome.Speed;
+        var moveDirection = direction.GetValueOrDefault().normalized;
+        var move = moveDirection * Genome.Speed;
         transform.position += move;
         //transform.DOMove(transform.position + move, Time.fixedDeltaTime).SetEase(Ease.Linear);
-        transform.forward = move;
+        transform.forward = moveDirection;
 
         // Energy
         Energy -= WalkEnergyConsumption * Genome.EnergyEfficiency;
@@ -187,6 +192,7 @@ public class AnimalBehaviour : MonoBehaviour {
     }
 
     private void Die() {
+        IsDying = true;
         GetComponent<NavMeshAgent>().enabled = false;
         transform.position = new Vector3(0, 1000, 0);
         Destroy(gameObject, 1);
