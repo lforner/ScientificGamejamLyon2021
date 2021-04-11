@@ -4,12 +4,19 @@ using UnityEngine;
 
 [System.Serializable]
 public class AnimalGenome {
-    public float Speed = 1;
+    [Tooltip("Speed, from 1 to 3")]
+    public RangedValue Speed = new RangedValue(1, 3);
 
-    [Tooltip("Fertility, from 0 to 0.5")]
-    public float Fertility = 0.25f;
-    public float Visibility = 1;
-    public float EnergyEfficiency = 1;
+    [Tooltip("Fertility, from 0.25 to 0.5")]
+    public RangedValue Fertility = new RangedValue(0.25f, 0.5f);
+
+    [Tooltip("Visibility, from 1 to 2")]
+    public RangedValue Visibility = new RangedValue(1, 2);
+    public float HalfFieldOfView => Visibility.ToScale(40, 150);
+    public float ViewDistance => Visibility.ToScale(1, 2);
+
+    [Tooltip("EnergyEfficiency, from 1 to 2")]
+    public RangedValue EnergyEfficiency = new RangedValue(1, 2);
 
     public AnimalGenome ChildGenome(AnimalGenome parent) {
         return new AnimalGenome() {
@@ -20,7 +27,29 @@ public class AnimalGenome {
         };            
     }
 
-    private float getChildValue(float parent1Value, float parent2Value) {
-        return GaussianRandom.generateNormalRandom((parent1Value + parent2Value) / 2, Mathf.Abs(parent2Value - parent1Value) / 4);
+    private RangedValue getChildValue(RangedValue parent1Value, RangedValue parent2Value) {
+        var childValue = GaussianRandom.generateNormalRandom((parent1Value.Value + parent2Value.Value) / 2, Mathf.Abs(parent2Value.Value - parent1Value.Value) / 4);
+        return new RangedValue(parent1Value.Min, parent1Value.Max) { Value = childValue };
+    }
+}
+
+[System.Serializable]
+public class RangedValue {
+    public readonly float Min;
+    public readonly float Max;
+    public float Value;
+
+    public RangedValue(float min, float max) {
+        Min = min;
+        Max = max;
+        Value = Min;
+    }
+
+    public void Increment() => Value = Mathf.Clamp(Value + (Max - Min) / 10, Min, Max);
+
+    public float ToScale(float newScaleMin, float newScaleMax) {
+        var b = (newScaleMax - newScaleMin) / (Max - Min);
+        var a = newScaleMax - b * Max;
+        return a + b * Value;
     }
 }

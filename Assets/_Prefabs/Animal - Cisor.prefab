@@ -429,10 +429,22 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 7835c0eba80c48240a587762060a8e2e, type: 2}
+    - target: {fileID: 1881467640345792562, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5572323485280022910, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7367616198699038843, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 4300000, guid: bbfdd03b44174423b9c05e5751777803, type: 3}
+    - target: {fileID: 8652445313558057157, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8652445313558057162, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
       propertyPath: m_Height
       value: 3
@@ -443,6 +455,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652445313558057162, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
       propertyPath: m_Center.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652445314336403575, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_LocalPosition.y
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8652445314666032397, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
