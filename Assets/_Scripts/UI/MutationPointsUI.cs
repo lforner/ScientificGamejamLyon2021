@@ -35,7 +35,8 @@ public class MutationPointsUI : MonoBehaviour
     public void UpdateUI(float mutationPoints)
     {
         _slider.value = mutationPoints;
-        _text.text = $"Mutation points: {mutationPoints:F1}";
+        //_text.text = $"Mutation points: {mutationPoints:F1}";
+        _text.text = $"{mutationPoints:F0}";
     }
 
     public void Increase(float diff)
