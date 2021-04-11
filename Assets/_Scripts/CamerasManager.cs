@@ -26,7 +26,6 @@ public class CamerasManager : MonoBehaviour
 
     public void FollowTarget(Transform target)
     {
-        Debug.Log($"FollowTarget");
         SelectionCam.Follow = SelectionCam.LookAt = target;
         SelectionCam.Priority = 10;
         Invoke(nameof(SetIsFollow), .1f);
@@ -34,7 +33,6 @@ public class CamerasManager : MonoBehaviour
 
     private void SetIsFollow()
     {
-        Debug.Log($"SetIsFollow");
         IsFollowing = true;
     }
 

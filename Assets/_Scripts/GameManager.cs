@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,8 @@ public class GameManager : MonoBehaviour
     public bool EndlessMode;
 
     public int WaveNumber { get; private set; }
+    public AnimalSpeciesType SelectedSpecies { get; internal set; }
+    public bool HasGameStarted { get; private set; }
 
     void Awake()
     {
@@ -37,10 +40,9 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && CamerasManager.S.IsFollowing)
+        if (HasGameStarted && Input.GetMouseButtonDown(0) && CamerasManager.S.IsFollowing)
         {
             CamerasManager.S.UnfollowTarget();
-            Debug.Log($"GameManager");
         }
     }
 
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene(1);
+        HasGameStarted = true;
     }
 
     public void LoseGame()
