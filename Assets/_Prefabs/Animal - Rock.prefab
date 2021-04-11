@@ -262,12 +262,32 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ef8338e2136135f4e82521dbc9d8d9d5, type: 2}
+    - target: {fileID: 831215819547590150, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1881467640345792562, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
       propertyPath: m_Radius
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1881467640345792562, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
       propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403941383457359842, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403941383457359842, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403941383457359842, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3829491351540933688, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5572323485280022910, guid: d7c12d0d8f8e1cd45bb19d0b8f9db6e2, type: 3}

@@ -48,7 +48,7 @@ public class AnimalBehaviour : MonoBehaviour {
     public int RandomWalkHalfAngle = 30;
 
     public AnimalSpeciesType SpeciesType;
-    private AnimalSpecies _species;
+    private AnimalSpecies _species;   
 
     public float Energy = 1.0f;
 
@@ -58,11 +58,49 @@ public class AnimalBehaviour : MonoBehaviour {
     public ColliderTriggerHelper BodyCollider;
     public ColliderTriggerHelper ViewCollider;
 
+    private SpriteRenderer _emoticon;
+    public Sprite EmoticonWalk;
+    public Sprite EmoticonWalkPredator;
+    public Sprite EmoticonWalkPrey;
+    public Sprite EmoticonWalkMate;
+    public Sprite EmoticonEatPrey;
+    public Sprite EmoticonMakingLove;
+
+    private AnimalState _state = AnimalState.None;
+    public AnimalState State {
+        get => _state;
+        set {
+            _state = value;
+            switch (value) {
+                case AnimalState.None:
+                    _emoticon.sprite = null;
+                    break;
+                case AnimalState.Walk:
+                    _emoticon.sprite = EmoticonWalk;
+                    break;
+                case AnimalState.WalkPredator:
+                    _emoticon.sprite = EmoticonWalkPredator;
+                    break;
+                case AnimalState.WalkPrey:
+                    _emoticon.sprite = EmoticonWalkPrey;
+                    break;
+                case AnimalState.WalkMate:
+                    _emoticon.sprite = EmoticonWalkMate;
+                    break;
+                case AnimalState.EatPrey:
+                    _emoticon.sprite = EmoticonEatPrey;
+                    break;
+                case AnimalState.MakingLove:
+                    _emoticon.sprite = EmoticonMakingLove;
+                    break;
+            }
+        }
+    }
+
     [Header("Readonly")]
     public float DebugData = 0;
     public int InViewCount = 0;
     public int CollidingWithCount = 0;
-    public AnimalState State = AnimalState.None;
     public bool IsDying = false;
 
     private NavMeshAgent _navMeshAgent;
@@ -74,6 +112,7 @@ public class AnimalBehaviour : MonoBehaviour {
     void Start() {
         _species = speciesMap[SpeciesType];
         _navMeshAgent = GetComponent<NavMeshAgent>();
+        _emoticon = GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
