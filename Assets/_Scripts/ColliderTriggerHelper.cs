@@ -4,8 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public class ColliderTriggerHelper : MonoBehaviour {
-    const string BodyName = "Body";
-    const string ViewName = "View";
+    public static readonly string BodyName = "Body";
+    public static readonly string ViewName = "View";
 
     [HideInInspector]
     public HashSet<AnimalBehaviour> CollidingWith = new HashSet<AnimalBehaviour>();

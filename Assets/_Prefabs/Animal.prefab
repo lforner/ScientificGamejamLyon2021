@@ -217,22 +217,34 @@ MonoBehaviour:
   FoodEnergy: 0.5
   WalkEnergyConsumption: 0.001
   LoveEnergyConsumption: 0.6
-  HalfFieldOfView: 80
   RandomWalkHalfAngle: 30
   SpeciesType: 0
   Energy: 1
   Genome:
-    Speed: 1
-    Fertility: 0.25
-    Visibility: 1
-    EnergyEfficiency: 1
+    Speed:
+      Value: 1
+    Fertility:
+      Value: 0.25
+    Visibility:
+      Value: 1
+    EnergyEfficiency:
+      Value: 1
   ChildGenome:
-    Speed: 1
-    Fertility: 0.25
-    Visibility: 1
-    EnergyEfficiency: 1
+    Speed:
+      Value: 1
+    Fertility:
+      Value: 0.25
+    Visibility:
+      Value: 1
+    EnergyEfficiency:
+      Value: 1
   BodyCollider: {fileID: 8652445313558057163}
   ViewCollider: {fileID: 8652445314336403573}
+  DebugData: 0
+  InViewCount: 0
+  CollidingWithCount: 0
+  State: 0
+  IsDying: 0
 --- !u!195 &8302199398608253021
 NavMeshAgent:
   m_ObjectHideFlags: 0

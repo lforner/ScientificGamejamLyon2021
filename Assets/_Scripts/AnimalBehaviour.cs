@@ -45,7 +45,6 @@ public class AnimalBehaviour : MonoBehaviour {
     public float FoodEnergy = 0.5f;
     public float WalkEnergyConsumption = 0.001f;
     public float LoveEnergyConsumption = 0.6f;
-    public int HalfFieldOfView = 80;
     public int RandomWalkHalfAngle = 30;
 
     public AnimalSpeciesType SpeciesType;
@@ -100,7 +99,7 @@ public class AnimalBehaviour : MonoBehaviour {
         CollidingWithCount = BodyCollider.CollidingWith.Count;
         if (InViewCount > 0) {
             // Check predator
-            var predators = ViewCollider.CollidingWith.Where((animal) => animal._species.IsPredatorOf(_species));
+            var predators = ViewCollider.CollidingWith.Where((animal) => animal._species.IsPredatorOf(_species) && !animal.IsDying);
             if (predators.Count() > 0) {
                 foreach (var predator in predators) {
                     // Search for a predator in sight
@@ -114,9 +113,9 @@ public class AnimalBehaviour : MonoBehaviour {
             }
 
             // Check prey
-            var firstPrey = ViewCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species));
+            var firstPrey = ViewCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species) && !animal.IsDying);
             if (IsHungry && firstPrey != null) {
-                var firstTouchingPrey = BodyCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species));
+                var firstTouchingPrey = BodyCollider.CollidingWith.FirstOrDefault((animal) => _species.IsPredatorOf(animal._species) && !animal.IsDying);
 
                 // Just Walk toward prey
                 if (firstTouchingPrey == null) {
@@ -134,9 +133,9 @@ public class AnimalBehaviour : MonoBehaviour {
             }
 
             // Check mate
-            var firstMate = ViewCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType);
+            var firstMate = ViewCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType && !animal.IsDying);
             if (CanMakeLove && firstMate != null) {
-                var firstTouchingMate = BodyCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType);
+                var firstTouchingMate = BodyCollider.CollidingWith.FirstOrDefault((animal) => SpeciesType == animal.SpeciesType && !animal.IsDying);
 
                 // Just Walk toward mate
                 if (firstTouchingMate == null) {
@@ -146,7 +145,7 @@ public class AnimalBehaviour : MonoBehaviour {
                 
                 // Make love
                 else {
-                    var coupleFertility = Genome.Fertility + firstMate.Genome.Fertility;
+                    var coupleFertility = Genome.Fertility.Value + firstMate.Genome.Fertility.Value;
                     if (coupleFertility >= Random.value) {
                         State = AnimalState.MakingLove;
                         MakeLove(firstMate);
@@ -184,23 +183,23 @@ public class AnimalBehaviour : MonoBehaviour {
                 }
             }
         } else {
-            Debug.Log($"Why ? {transform.position}");
+            Debug.LogWarning($"Animal not on nav mesh : {transform.position}");
         }
 
         // Move
-        var move = moveDirection.normalized * Genome.Speed;
+        var move = moveDirection.normalized * Genome.Speed.Value;
         transform.position += move;    //transform.DOMove(transform.position + move, Time.fixedDeltaTime).SetEase(Ease.Linear);
         transform.forward = moveDirection;
 
         // Energy
-        Energy -= WalkEnergyConsumption * Genome.EnergyEfficiency;
+        Energy -= WalkEnergyConsumption / Genome.EnergyEfficiency.Value;
     }
 
     private Vector3? GetPredatorInViewRunDirection(AnimalBehaviour predator) {
         var predatorDirection = predator.transform.position - transform.position;
         if (predatorDirection == Vector3.zero) predatorDirection = Random.insideUnitSphere;
         var angle = Vector3.Angle(transform.forward, predatorDirection);
-        if (angle <= HalfFieldOfView) return -predatorDirection;
+        if (angle <= Genome.HalfFieldOfView) return -predatorDirection;
         return null;
     }
 
@@ -210,17 +209,26 @@ public class AnimalBehaviour : MonoBehaviour {
     }
 
     private void MakeLove(AnimalBehaviour parent2) {
+        // Get child genome
         var childGenome = ChildGenome.ChildGenome(parent2.ChildGenome);
+
+        // Create child
         var child = Instantiate(gameObject, (transform.position + parent2.transform.position) / 2, Quaternion.Lerp(transform.rotation, parent2.transform.rotation, 0.5f), transform.parent);
+        //Debug.Log($"Child : {child.transform.position} | {IsDying} | {parent2.IsDying}");
         var animal = child.GetComponent<AnimalBehaviour>();
         animal.Genome = childGenome;
         animal.Energy = LoveEnergyConsumption;
+
+        var viewCollider = child.GetComponentsInChildren<ColliderTriggerHelper>().FirstOrDefault((c) => c.name == ColliderTriggerHelper.ViewName);
+        viewCollider.transform.localScale = Vector3.one * childGenome.ViewDistance;
+
+        // AfterLoveTask
         AfterLoveTask(this);
         AfterLoveTask(parent2);
     }
 
     private void AfterLoveTask(AnimalBehaviour lover) {
-        lover.Energy -= LoveEnergyConsumption;
+        lover.Energy -= LoveEnergyConsumption / Genome.EnergyEfficiency.Value;
     }
 
     private void Die() {
