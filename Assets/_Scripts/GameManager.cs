@@ -67,8 +67,14 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+        Invoke(nameof(UnloadMenuScene), 1);
         HasGameStarted = true;
+    }
+
+    private static void UnloadMenuScene()
+    {
+        SceneManager.UnloadSceneAsync(0);
     }
 
     public void LoseGame()
