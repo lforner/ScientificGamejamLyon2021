@@ -23,6 +23,7 @@ public class AnimalSpawner : MonoBehaviour
             animal.transform.localPosition = new Vector3(randomPosition.x, animal.transform.localPosition.y, randomPosition.y);
             animal.transform.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             //animal.GetComponent<NavMeshAgent>().enabled = true;
+            animal.GetComponentInChildren<Animator>().speed = Random.Range(.75f, 1.25f);
             _animals.Add(animal);
         }
     }

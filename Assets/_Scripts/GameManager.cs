@@ -8,10 +8,16 @@ public class GameManager : MonoBehaviour
     public static GameManager S;
 
     public List<List<GameObject>> AnimalsLists = new List<List<GameObject>>();
+    [HideInInspector] public VictoryUI VictoryUI;
+    [HideInInspector] public DefeatUI DefeatUI;
 
     [Header("Dynamic")]
     [Tooltip("Scaled time between two perturbations in seconds")]
     public float TimeBetweenPerturbations = 10;
+    public int NumberOfPerturbationsToWin = 10;
+    public bool EndlessMode;
+
+    public int WaveNumber { get; private set; }
 
     void Awake()
     {
@@ -31,28 +37,37 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator TriggerDisruptions()
     {
-        yield return new WaitForSeconds(TimeBetweenPerturbations);
+        while (EndlessMode || WaveNumber < NumberOfPerturbationsToWin)
+        {
+            Disrupt();
 
-        Disrupt();
+            yield return new WaitForSeconds(TimeBetweenPerturbations);
+
+            WaveNumber++;
+        }
+
+        WinGame();
     }
 
     private void Disrupt()
     {
-        Debug.Log("Disrupt");
+        Debug.Log($"Disrupt wave#{WaveNumber}");
     }
 
-    public static void StartGame()
+    public void StartGame()
     {
         SceneManager.LoadScene(1);
     }
 
-    public static void LoseGame()
+    public void LoseGame()
     {
         Debug.Log("LoseGame");
+        DefeatUI.LoseGame();
     }
 
-    public static void WinGame()
+    public void WinGame()
     {
         Debug.Log("WinGame");
+        VictoryUI.WinGame();
     }
 }
