@@ -45,7 +45,7 @@ public class RangedValue {
         Value = Min;
     }
 
-    public void Increment() => Value = Mathf.Clamp(Value + (Max - Min) / 10, Min, Max);
+    public void Increment(float sign) => Value = Mathf.Clamp(Value + sign * (Max - Min) / 10, Min, Max);
 
     public float ToScale(float newScaleMin, float newScaleMax) {
         var b = (newScaleMax - newScaleMin) / (Max - Min);

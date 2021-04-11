@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class MutationPointsUI : MonoBehaviour
 {
+    public static MutationPointsUI S;
+
     [HideInInspector] public float MutationPoints;
 
     [SerializeField] private Slider _slider;
@@ -16,6 +18,7 @@ public class MutationPointsUI : MonoBehaviour
 
     private void Awake()
     {
+        S = this;
         _slider.maxValue = _maxValue;
     }
 

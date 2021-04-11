@@ -20,6 +20,7 @@ public class PanelBase : MonoBehaviour
     }
     public void Hide()
     {
+        if (_canvasGroup == null) return;
         _canvasGroup.DOFade(0, FadeDuration).timeScale = 1 / Time.timeScale;
         _canvasGroup.interactable = _canvasGroup.blocksRaycasts = false;
     }
