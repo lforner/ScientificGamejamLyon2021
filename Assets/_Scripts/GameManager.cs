@@ -35,6 +35,15 @@ public class GameManager : MonoBehaviour
         StartCoroutine(TriggerDisruptions());
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0) && CamerasManager.S.IsFollowing)
+        {
+            CamerasManager.S.UnfollowTarget();
+            Debug.Log($"GameManager");
+        }
+    }
+
     private IEnumerator TriggerDisruptions()
     {
         while (EndlessMode || WaveNumber < NumberOfPerturbationsToWin)
