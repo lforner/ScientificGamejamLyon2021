@@ -16,7 +16,7 @@ public class AnimalSelection : MonoBehaviour
     private void OnDestroy()
     {
         if (!_isFollowed) return;
-        CamerasManager.S.UnfollowTarget();
+        //CamerasManager.S.UnfollowTarget();
         AnimalDetailsUI.S.HideAnimalDetails();
         _isFollowed = false;    
     }

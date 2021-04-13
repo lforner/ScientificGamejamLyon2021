@@ -42,7 +42,7 @@ public class AnimalDetailsUI : PanelBase
                 _genome.Fertility.Increment(Mathf.Sign(gene));
                 break;
         }
-        HideAnimalDetails();
+        //HideAnimalDetails();
     }
 
     public void HideAnimalDetails()

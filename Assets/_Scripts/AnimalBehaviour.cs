@@ -72,12 +72,9 @@ public class AnimalBehaviour : MonoBehaviour {
         set {
             _state = value;
             switch (value) {
-                case AnimalState.None:
-                    _emoticon.sprite = null;
-                    break;
-                case AnimalState.Walk:
-                    _emoticon.sprite = EmoticonWalk;
-                    break;
+                //case AnimalState.Walk:
+                //    _emoticon.sprite = EmoticonWalk;
+                //    break;
                 case AnimalState.WalkPredator:
                     _emoticon.sprite = EmoticonWalkPredator;
                     break;
@@ -92,6 +89,9 @@ public class AnimalBehaviour : MonoBehaviour {
                     break;
                 case AnimalState.MakingLove:
                     _emoticon.sprite = EmoticonMakingLove;
+                    break;
+                default:
+                    _emoticon.sprite = null;
                     break;
             }
         }
@@ -134,7 +134,7 @@ public class AnimalBehaviour : MonoBehaviour {
 
         // Death
         if (Energy < 0) {
-            Die();
+            Die(SpeciesType);
         }
     }
 
@@ -233,8 +233,9 @@ public class AnimalBehaviour : MonoBehaviour {
 
         // Move
         var move = moveDirection.normalized * Genome.Speed.Value;
-        transform.position += move;    //transform.DOMove(transform.position + move, Time.fixedDeltaTime).SetEase(Ease.Linear);
-        transform.forward = moveDirection;
+        //transform.position += move;    
+        _navMeshAgent.SetDestination(transform.position + move);
+        //transform.forward = moveDirection;
 
         // Energy
         Energy -= WalkEnergyConsumption / Genome.EnergyEfficiency.Value;
@@ -249,7 +250,7 @@ public class AnimalBehaviour : MonoBehaviour {
     }
 
     private void EatPrey(AnimalBehaviour prey) {
-        prey.Die();
+        prey.Die(prey.SpeciesType);
         PlayAudio(AudioEat);
         Energy += FoodEnergy;
     }
@@ -265,6 +266,8 @@ public class AnimalBehaviour : MonoBehaviour {
         animal.Genome = childGenome;
         animal.Energy = LoveEnergyConsumption;
 
+        AnimalsCountUI.S.IncrementsAnimalsCount(animal.SpeciesType, 1);
+
         var viewCollider = child.GetComponentsInChildren<ColliderTriggerHelper>().FirstOrDefault((c) => c.name == ColliderTriggerHelper.ViewName);
         viewCollider.transform.localScale = Vector3.one * childGenome.ViewDistance;
 
@@ -279,11 +282,12 @@ public class AnimalBehaviour : MonoBehaviour {
         lover.Energy -= LoveEnergyConsumption / Genome.EnergyEfficiency.Value;
     }
 
-    private void Die() {
+    private void Die(AnimalSpeciesType speciesType) {
         IsDying = true;
         _navMeshAgent.enabled = false;
         transform.position = new Vector3(0, 1000, 0);
         PlayAudio(AudioDie);
+        AnimalsCountUI.S.IncrementsAnimalsCount(speciesType, -1);
         Destroy(gameObject, 1);
     }
 

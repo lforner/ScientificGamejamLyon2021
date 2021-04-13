@@ -9,9 +9,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager S;
 
-    public List<List<GameObject>> AnimalsLists = new List<List<GameObject>>();
+    //public List<List<GameObject>> AnimalsLists = new List<List<GameObject>>();
     [HideInInspector] public VictoryUI VictoryUI;
     [HideInInspector] public DefeatUI DefeatUI;
+    [HideInInspector] public GameObject AnimalContainer;
 
     [Header("Dynamic")]
     [Tooltip("Scaled time between two perturbations in seconds")]
@@ -23,7 +24,6 @@ public class GameManager : MonoBehaviour
     public AnimalSpeciesType SelectedSpecies { get; internal set; }
     public bool HasGameStarted { get; private set; }
 
-    public GameObject AnimalContainer;
 
     void Awake()
     {
@@ -34,23 +34,25 @@ public class GameManager : MonoBehaviour
         }
         S = this;
         DontDestroyOnLoad(this);
+        Application.targetFrameRate = 30;
     }
 
     private void Start()
     {
-        StartCoroutine(TriggerDisruptions());
     }
 
     private void Update()
     {
         if (HasGameStarted && Input.GetMouseButtonDown(0) && CamerasManager.S.IsFollowing)
         {
-            CamerasManager.S.UnfollowTarget();
+            AnimalDetailsUI.S.HideAnimalDetails();
         }
     }
 
-    private IEnumerator TriggerDisruptions()
+    private IEnumerator TriggerDisruptions(AsyncOperation loading)
     {
+        yield return loading;
+
         while (EndlessMode || WaveNumber < NumberOfPerturbationsToWin)
         {
             Disrupt();
@@ -75,12 +77,13 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+        AsyncOperation loading = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
         Invoke(nameof(UnloadMenuScene), 1);
         HasGameStarted = true;
+        StartCoroutine(TriggerDisruptions(loading));
     }
 
-    private static void UnloadMenuScene()
+    private void UnloadMenuScene()
     {
         SceneManager.UnloadSceneAsync(0);
     }

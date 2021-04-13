@@ -40,7 +40,7 @@ public class CamerasManager : MonoBehaviour
 
     public void UnfollowTarget()
     {
-        Debug.Log("UnfollowTarget");
+        //Debug.Log("UnfollowTarget");
         SelectionCam.Priority = 0;
         IsFollowing = false;
     }

@@ -15,13 +15,16 @@ public class PanelBase : MonoBehaviour
 
     public void Show()
     {
-        _canvasGroup.DOFade(1, FadeDuration).timeScale = 1 / Time.timeScale;
+        if (_canvasGroup == null) return;
+        float fadeSpeed = Time.timeScale <= 0 ? 1 : 1 / Time.timeScale;
+        _canvasGroup.DOFade(1, FadeDuration).timeScale = fadeSpeed;
         _canvasGroup.interactable = _canvasGroup.blocksRaycasts = true;
     }
     public void Hide()
     {
         if (_canvasGroup == null) return;
-        _canvasGroup.DOFade(0, FadeDuration).timeScale = 1 / Time.timeScale;
+        float fadeSpeed = Time.timeScale <= 0 ? 1 : 1 / Time.timeScale;
+        _canvasGroup.DOFade(0, FadeDuration).timeScale = fadeSpeed;
         _canvasGroup.interactable = _canvasGroup.blocksRaycasts = false;
     }
 }
